@@ -20,6 +20,12 @@ public class Offre_emploi {
         this.date = date;
     }
 
+    public Offre_emploi(String titre, Date date, String description) {
+        this.titre = titre;
+        this.date = date;
+        this.description = description;
+    }
+
     public int getId() {
         return id;
     }

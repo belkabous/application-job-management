@@ -25,69 +25,72 @@ public class CandidatDao {
         }
     }
 
-    public  void  AjouterCandidat(Candidat candidat) {
+    public void AjouterCandidat(Candidat candidat) {
         if (connection == null) {
             System.err.println("Database connection not established!");
-        return;
+            return;
         }
-        String query = "INSERT INTO candidat (nom_candiat,email_candidat) VALUES (?,?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        String query = "INSERT INTO candidat (nom_candiat, email_candidat) VALUES (?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, candidat.getNom());
             preparedStatement.setString(2, candidat.getEmail());
-        }catch (SQLException e) {
+            preparedStatement.executeUpdate(); // Cette ligne était manquante
+        } catch (SQLException e) {
             System.err.println("Error inserting candidat: " + e.getMessage());
             e.printStackTrace();
         }
     }
-    public List<Candidat> AfficherCandidat(){
+
+    public List<Candidat> AfficherCandidat() {
         List<Candidat> candidats = new ArrayList<>();
-        String query = "SELECT id_candidat, nom_candiat, email_candidat FROM candidat ";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        String query = "SELECT id_candidat, nom_candiat, email_candidat FROM candidat";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id_candidat");
-                String nom = resultSet.getString("nom_candidat");
+                String nom = resultSet.getString("nom_candiat"); // Correction du nom de colonne
                 String email = resultSet.getString("email_candidat");
                 candidats.add(new Candidat(id, nom, email));
-
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return candidats;
     }
-     public  void ModiffierCandidat(Candidat candidat) {
-        String query = "UPDATE candidat SET nom_candidat = ?,email_candidat = ? WHERE id_candidat = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
-               preparedStatement.setString(1, candidat.getNom());
-               preparedStatement.setString(2, candidat.getEmail());
-               preparedStatement.setInt(3, candidat.getId());
-               preparedStatement.executeUpdate();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-     }
-   public  void  deleterCandidat(Integer candidat) {
-        String query = "DELETE FROM candidat WHERE id_candidat = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
-           preparedStatement.setInt(1, candidat);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-   }
 
-    public  Candidat selectCandidatById(int id) {
-        String query = "SELECT id, nom_candidat, description FROM cours WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
+    public void ModiffierCandidat(Candidat candidat) {
+        String query = "UPDATE candidat SET nom_candiat = ?, email_candidat = ? WHERE id_candidat = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, candidat.getNom());
+            preparedStatement.setString(2, candidat.getEmail());
+            preparedStatement.setInt(3, candidat.getId());
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleterCandidat(Integer candidatId) {
+        String query = "DELETE FROM candidat WHERE id_candidat = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, candidatId);
+            preparedStatement.executeUpdate(); // Cette ligne était manquante
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Candidat selectCandidatById(int id) {
+        String query = "SELECT id_candidat, nom_candiat, email_candidat FROM candidat WHERE id_candidat = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                return  new Candidat(id, rs.getString("nom_candidat"), rs.getString("email_candidat"));
+                return new Candidat(rs.getInt("id_candidat"), rs.getString("nom_candiat"), rs.getString("email_candidat"));
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-
 }

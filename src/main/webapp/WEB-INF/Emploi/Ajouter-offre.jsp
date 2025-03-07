@@ -2,13 +2,13 @@
   Created by IntelliJ IDEA.
   User: idriss
   Date: 05/03/2025
-  Time: 14:51
+  Time: 14:52
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Ajouter Candidat</title>
+    <title>Ajouter Offre d'Emploi</title>
     <style>
         .form-container {
             width: 50%;
@@ -19,7 +19,7 @@
             width: 120px;
             margin: 10px 0;
         }
-        input[type="text"], input[type="email"] {
+        input[type="text"], input[type="date"] {
             width: 200px;
             padding: 5px;
         }
@@ -27,14 +27,16 @@
 </head>
 <body>
 <div class="form-container">
-    <h1>Ajouter un Candidat</h1>
-    <form action="${pageContext.request.contextPath}/candidat/Ajoutercandidat" method="post">
-        <label>Username :</label>
-        <input type="text" name="username" required><br>
-        <label>Email :</label>
-        <input type="email" name="email" required><br>
+    <h1>Ajouter une nouvelle Offre</h1>
+    <form action="${pageContext.request.contextPath}/offre_emploi/insert" method="post">
+        <label>Titre :</label>
+        <input type="text" name="titre" required><br>
+        <label>Description :</label>
+        <input type="text" name="description" required><br>
+        <label>Date :</label>
+        <input type="date" name="date" required><br>
         <input type="submit" value="Ajouter">
-        <a href="${pageContext.request.contextPath}/candidat/Affichercandidat">Annuler</a>
+        <a href="${pageContext.request.contextPath}/offre_emploi/list">Annuler</a>
     </form>
 </div>
 </body>

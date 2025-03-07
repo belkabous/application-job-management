@@ -11,7 +11,7 @@ CREATE TABLE offre_emploi(
     id_offre int(10) PRIMARY KEY AUTO_INCREMENT,
     titre_offre VARCHAR(50),
     description VARCHAR(1000),
-    date DATE
+    date
 );
 
 CREATE TABLE candidature(
@@ -22,7 +22,7 @@ CREATE TABLE candidature(
     FOREIGN KEY (id_candidat) REFERENCES candidat(id_candidat)
 );
 
-CREATE TABLE user(
+CREATE TABLE users(
     id_user int(10) PRIMARY KEY AUTO_INCREMENT,
     email_user VARCHAR(100),
     password VARCHAR(100),
