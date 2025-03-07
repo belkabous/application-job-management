@@ -9,6 +9,9 @@ public class Offre_emploi {
     private String description;
     private Date date;
 
+    public Offre_emploi() {
+
+    }
 
     public Offre_emploi(int id, String titre, String description, Date date) {
         this.id = id;

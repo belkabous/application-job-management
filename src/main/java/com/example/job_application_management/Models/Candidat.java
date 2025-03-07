@@ -11,6 +11,10 @@ public class Candidat {
         this.email = email;
     }
 
+    public Candidat(String nom, String email) {
+        this.nom = nom;
+        this.email = email;
+    }
 
     public int getId() {
         return id;
